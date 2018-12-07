@@ -20,9 +20,12 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
+    Route::post('category/{category}/restore', 'Admin\CategoryController@restore');
     Route::get('category/{parent_id}/create', 'Admin\CategoryController@create');
-    Route::get('category/{parent_id}', 'Admin\CategoryController@show');
+    Route::get('category/{parent_id}/show/{display}', 'Admin\CategoryController@show');
     Route::resource('category', 'Admin\CategoryController');
+    //
+    Route::get('merchandise/{parent_id}/create', 'Admin\MerchandiseController@create');
+    Route::get('merchandise/{category_id}', 'Admin\MerchandiseController@show');
+    Route::resource('merchandise', 'Admin\MerchandiseController');
 });
-
-

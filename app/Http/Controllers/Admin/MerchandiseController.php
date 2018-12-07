@@ -15,7 +15,8 @@ class MerchandiseController extends Controller
      */
     public function index()
     {
-        //
+        //防止無索引
+        return redirect('admin/category/0');
     }
 
     /**
@@ -45,9 +46,18 @@ class MerchandiseController extends Controller
      * @param  \App\Entity\Merchandise  $merchandise
      * @return \Illuminate\Http\Response
      */
-    public function show(Merchandise $merchandise)
+    public function show($category_id = 0)
     {
-        //
+        $merchandise = Merchandise::orderBy('updated_at', 'desc')
+                    ->where('category_id', $category_id)
+                    ->where('display', '1')
+                    ->get();
+                    // ->toJson(JSON_PRETTY_PRINT);
+        //新增商品時會更新該項子項目數量
+        return view('admin/merchandise/show',[
+            'category_id'=>$category_id,
+            'merchandise'=>$merchandise,
+        ]);
     }
 
     /**

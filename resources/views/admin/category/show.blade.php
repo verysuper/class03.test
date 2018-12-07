@@ -10,41 +10,65 @@
     <h1>show(Display the specified resource.)</h1>
     <h3>GET|HEAD| admin/category/{category}| category.show| App\Http\Controllers\Admin\CategoryController@show| web</h3>
     @include('components.validationErrorMessage')
-    <a href="{{ url('admin/category/'.$parent_id.'/create') }}"><button type="submit">create</button></a>
+
     <table border=1>
+        <tr align="right">
+            <td colspan=15>
+                <a href="{{ url('admin/category/'.$parent_id.'/create') }}"><button type="submit">create</button></a>
+                <a href="{{ url('admin/category/'.$parent_id.'/show/0') }}"><button type="submit">restore</button></a>
+            </td>
+        </tr>
         <tr>
             <td>id</td>
             <td>category_no</td>
             <td>name</td>
+            <td>name_en</td>
             <td>image</td>
             <td>info</td>
+            <td>info_en</td>
             <td>edit</td>
-            <td>delete</td>
+            <td>delete</td><!-- display -->
+            <td>quantity</td>
+            <td>view</td>
+            <td>layer</td>
+            <td>created_by_id</td>
+            <td>updated_by_id</td>
+            <td>parent_id</td>
         </tr>
         @foreach($categorys as $category)
         <tr>
             <td>{{ $category->id }}</td>
-            @if($category->layer < 2)
-            <td><a href="{{ url('admin/category/'.$category->id) }}">{{ $category->category_no }}</a></td>
-            <td><a href="{{ url('admin/category/'.$category->id) }}">{{ $category->name }}</a></td>
-            <td><a href="{{ url('admin/category/'.$category->id) }}">
-                <img src="{{ is_null($category->image)?url('/images/default-merchandise.png'):url('/images/category/'.$category->image) }}" width=100/>
-            </a></td>
-            <td><a href="{{ url('admin/category/'.$category->id) }}">{{ $category->info }}</a></td>
-            @else
             <td>{{ $category->category_no }}</td>
             <td>{{ $category->name }}</td>
-            <td>{{ $category->image }}</td>
+            <td>{{ $category->name_en }}</td>
+            <td><img src="{{ is_null($category->image)?url('/images/default-merchandise.png'):url('/images/category/'.$category->image) }}" width=100/></td>
             <td>{{ $category->info }}</td>
-            @endif
+            <td>{{ $category->info_en }}</td>
             <td><a href="{{ url('admin/category/'.$category->id.'/edit') }}"><button type="submit">edit</button></a></td>
-            <td>
+            <td><!-- display -->
+            @if($category->display)
                 <form action="{{ url('admin/category/'.$category->id) }}" method="post">
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}
                     <input type="submit" value="delete">
                 </form>
+            @else
+                <form action="{{ url('admin/category/'.$category->id.'/restore') }}" method="post">
+                    {{ csrf_field() }}
+                    <input type="submit" value="restore">
+                </form>
+            @endif
             </td>
+            @if($category->layer < 2)
+            <td><a href="{{ url('admin/category/'.$category->id.'/show/1') }}">{{ $category->sub_qty!=0?$category->sub_qty.' piece':'' }}</a></td>
+            @else
+            <td><a href="{{ url('admin/category/'.$category->id.'/show/1') }}">{{ $category->sub_qty!=0?$category->sub_qty.' piece':'' }}</a></td>
+            @endif
+            <td>{{ $category->view }}</td>
+            <td>{{ $category->layer }}</td>
+            <td>{{ $category->created_by_id }}</td>
+            <td>{{ $category->updated_by_id }}</td>
+            <td>{{ $category->parent_id }}</td>
         </tr>
         @endforeach
     </table>

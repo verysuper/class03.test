@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return redirect('admin/category/0');
+        return redirect('admin/category/0/show/1');
     }
 
     /**
@@ -43,13 +43,13 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)//待改成 $this->validate()
+    public function store(Request $request)
     {
         $this->validate($request, [
             'category_no' => 'required|between:7,7',
             'name' => 'required|between:10,50',
             'name_en' => 'required|between:10,50',
-            'image' => 'file|image|max:10240',
+            'image' => 'file|image|max:1024',
         ],[
             'category_no.between'=>'Must be equal 7 digits',
         ]);
@@ -64,7 +64,14 @@ class CategoryController extends Controller
         $input = $request->all();
         $input['image'] = $store_result;
         Category::create($input); //try catch
-        return redirect('admin/category/'.$input['parent_id']);
+        $parent_id = $input['parent_id'];
+        if($parent_id != '0'){
+            $count = Category::where('parent_id', $parent_id)
+                                ->count();
+            Category::where('id', $parent_id)
+                        ->update(['sub_qty' => $count]);
+        }
+        return redirect('admin/category/'.$parent_id.'/show/1');
     }
 
     /**
@@ -73,14 +80,14 @@ class CategoryController extends Controller
      * @param  \App\Entity\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($parent_id = 0)
+    public function show($parent_id = 0,$display=1)
     {
         $category = Category::orderBy('updated_at', 'desc')
                     ->where('parent_id', $parent_id)
-                    ->where('display', '1')
+                    ->where('display', $display)
                     ->get();
                     // ->toJson(JSON_PRETTY_PRINT);
-
+        //新增商品時會更新該項子項目數量
         return view('admin/category/show',[
             'parent_id'=>$parent_id,
             'categorys'=>$category,
@@ -113,7 +120,7 @@ class CategoryController extends Controller
             'category_no' => 'required|between:7,7',
             'name' => 'required|between:10,50',
             'name_en' => 'required|between:10,50',
-            'image' => 'file|image|max:10240',
+            'image' => 'file|image|max:1024',
         ],[
             'category_no.between'=>'Must be equal 7 digits',
         ]);
@@ -128,7 +135,7 @@ class CategoryController extends Controller
         $input = $request->all();
         $input['image'] = $store_result;
         $category->update($input);
-        return redirect('admin/category/'.$category->parent_id);
+        return redirect('admin/category/'.$category->parent_id.'/show/1');
     }
 
     /**
@@ -148,21 +155,34 @@ class CategoryController extends Controller
         }
         if($count > 0){
             return redirect()
-            ->back()
-            ->withInput()
-            ->withErrors([
-                'msg'=> ['存在子項目']
-            ]);
+                    ->back()
+                    ->withInput()
+                    ->withErrors([
+                        'msg'=> ['存在子項目']
+                    ]);
         }
         $category->display = '0';
         $category->update();
+
+        Category::where('id', $category->parent_id)
+                    ->decrement('sub_qty',1);
         return redirect()->back();
     }
     private function countSubItems($table,$id){
-        $count=DB::table($table)
-                ->where('parent_id',$id)
-                ->where('display','1')
-                ->count();
-        return $count;
+        return DB::table($table)
+                    ->where('parent_id',$id)
+                    ->where('display','1')
+                    ->count();
+    }
+    //
+    public function restore(Category $category){
+        // dd($category);
+        $category->update([
+            'display'=>'1',
+        ]);
+
+        Category::where('id', $category->parent_id)
+                    ->increment('sub_qty',1);
+        return redirect('admin/category/'.$category->parent_id.'/show/1');
     }
 }
