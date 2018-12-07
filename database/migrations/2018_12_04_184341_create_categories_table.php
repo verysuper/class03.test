@@ -21,7 +21,7 @@ class CreateCategoriesTable extends Migration
             $table->string('image',50)->nullable();//類別圖片
             $table->text('info')->nullable();//類別資訊中文
             $table->text('info_en')->nullable();//類別資訊英文
-            $table->integer('parent_id');//父id
+            $table->integer('parent_id')->index();//父id
             $table->enum('display', [0, 1])->default('0');//顯示
             $table->integer('created_by_id');//建立者
             $table->integer('updated_by_id');//修改者

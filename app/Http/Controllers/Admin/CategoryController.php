@@ -53,6 +53,24 @@ class CategoryController extends Controller
         ],[
             'category_no.between'=>'Must be equal 7 digits',
         ]);
+        $msg=null;
+        if(Category::where('category_no',$request->category_no)->first()){
+            $msg[]='編號已存在';
+        }
+        if(Category::where('name',$request->name)->first()){
+            $msg[]='名稱已存在';
+        }
+        if(Category::where('name_en',$request->name_en)->first()){
+            $msg[]='英文名稱已存在';
+        }
+        if(!empty($msg)){
+            return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors([
+                        'msg'=> $msg,
+                    ]);
+        }
         $store_result=null;
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $image = $request->file('image');
@@ -82,8 +100,12 @@ class CategoryController extends Controller
      */
     public function show($parent_id = 0,$display=1)
     {
+        $parent=null;
+        if( $parent_id > 0){
+           $parent = Category::where('id',$parent_id)->first();
+        }
         $category = Category::orderBy('updated_at', 'desc')
-                    ->where('parent_id', $parent_id)
+                    ->where( 'parent_id' , $parent_id)
                     ->where('display', $display)
                     ->get();
                     // ->toJson(JSON_PRETTY_PRINT);
@@ -91,6 +113,7 @@ class CategoryController extends Controller
         return view('admin/category/show',[
             'parent_id'=>$parent_id,
             'categorys'=>$category,
+            'parent'=>$parent,
         ]);
     }
 

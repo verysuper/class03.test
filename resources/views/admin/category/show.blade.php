@@ -12,10 +12,13 @@
     @include('components.validationErrorMessage')
 
     <table border=1>
-        <tr align="right">
+        <tr>
             <td colspan=15>
-                <a href="{{ url('admin/category/'.$parent_id.'/create') }}"><button type="submit">create</button></a>
-                <a href="{{ url('admin/category/'.$parent_id.'/show/0') }}"><button type="submit">restore</button></a>
+                @if(!is_null($parent))
+                <a href="{{ url('admin/category/'.$parent->parent_id.'/show/1') }}" style=""><button type="submit"><-back</button></a>
+                @endif
+                <a href="{{ url('admin/category/'.$parent_id.'/create') }}" style="float: right;"><button type="submit">create</button></a>
+                <a href="{{ url('admin/category/'.$parent_id.'/show/0') }}" style="float: right;"><button type="submit">restore</button></a>
             </td>
         </tr>
         <tr>
@@ -60,9 +63,9 @@
             @endif
             </td>
             @if($category->layer < 2)
-            <td><a href="{{ url('admin/category/'.$category->id.'/show/1') }}">{{ $category->sub_qty!=0?$category->sub_qty.' piece':'' }}</a></td>
+            <td><a href="{{ url('admin/category/'.$category->id.'/show/1') }}">{{ $category->sub_qty!=0?$category->sub_qty:'0' }} piece</a></td>
             @else
-            <td><a href="{{ url('admin/category/'.$category->id.'/show/1') }}">{{ $category->sub_qty!=0?$category->sub_qty.' piece':'' }}</a></td>
+            <td><a href="{{ url('admin/category/'.$category->id.'/show/1') }}">{{ $category->sub_qty!=0?$category->sub_qty:'0' }} piece</a></td>
             @endif
             <td>{{ $category->view }}</td>
             <td>{{ $category->layer }}</td>
