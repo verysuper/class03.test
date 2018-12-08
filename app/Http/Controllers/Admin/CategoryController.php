@@ -85,6 +85,7 @@ class CategoryController extends Controller
         $parent_id = $input['parent_id'];
         if($parent_id != '0'){
             $count = Category::where('parent_id', $parent_id)
+                                ->where('display','1')
                                 ->count();
             Category::where('id', $parent_id)
                         ->update(['sub_qty' => $count]);
@@ -100,6 +101,14 @@ class CategoryController extends Controller
      */
     public function show($parent_id = 0,$display=1)
     {
+        if($parent_id != '0'){ //暫時
+            $count = Category::where('parent_id', $parent_id)
+                                ->where('display','1')
+                                ->count();
+            Category::where('id', $parent_id)
+                        ->update(['sub_qty' => $count]);
+        }
+        //新增商品時會更新該項子項目數量
         $parent=null;
         if( $parent_id > 0){
            $parent = Category::where('id',$parent_id)->first();
@@ -109,11 +118,11 @@ class CategoryController extends Controller
                     ->where('display', $display)
                     ->get();
                     // ->toJson(JSON_PRETTY_PRINT);
-        //新增商品時會更新該項子項目數量
         return view('admin/category/show',[
             'parent_id'=>$parent_id,
             'categorys'=>$category,
             'parent'=>$parent,
+            'display'=>$display,
         ]);
     }
 
@@ -154,6 +163,8 @@ class CategoryController extends Controller
             //$store_result = $photo->store('photo');
             $file=$request->input('category_no').'.'.$extension;
             $store_result = $image->storeAs('logo', $file, 'public_category');
+        }else {
+            $store_result=$category->image;
         }
         $input = $request->all();
         $input['image'] = $store_result;
@@ -172,9 +183,9 @@ class CategoryController extends Controller
         //to do check sub items
         $count=0;
         if($category->layer < 2){
-            $count=$this->countSubItems('categories',$category->id);
+            $count=$this->countSubItems('categories','parent_id',$category->id);
         }else {
-            $count=$this->countSubItems('merchandises',$category->id);
+            $count=$this->countSubItems('merchandises','category_id',$category->id); //******************** */
         }
         if($count > 0){
             return redirect()
@@ -191,15 +202,15 @@ class CategoryController extends Controller
                     ->decrement('sub_qty',1);
         return redirect()->back();
     }
-    private function countSubItems($table,$id){
+    //
+    private function countSubItems($table,$column,$id){
         return DB::table($table)
-                    ->where('parent_id',$id)
+                    ->where( $column, $id)
                     ->where('display','1')
                     ->count();
     }
     //
     public function restore(Category $category){
-        // dd($category);
         $category->update([
             'display'=>'1',
         ]);

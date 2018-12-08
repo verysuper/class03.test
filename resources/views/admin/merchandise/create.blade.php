@@ -7,10 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>create(Show the form for creating a new resource)</h1>
-    <h3>GET|HEAD| admin/category/create| category.create| App\Http\Controllers\Admin\CategoryController@create| web</h3>
+    <h1>merchandise create(Show the form for creating a new resource)</h1>
+    <h3>GET|HEAD| admin/merchandise/{category_id}/create|| App\Http\Controllers\Admin\MerchandiseController@create| web,auth</h3>
     @include('components.validationErrorMessage')
-    <form action="{{ url('admin/category') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ url('admin/merchandise') }}" method="post" enctype="multipart/form-data">
     {{ csrf_field() }}
         <table border=1>
             <tr>
@@ -19,8 +19,8 @@
                 </td>
             </tr>
             <tr>
-                <td>category_no</td>
-                <td><input type="text" name="category_no" id="" value="{{ old('category_no') }}" required autocomplete="off"></td>
+                <td>merchandise_no</td>
+                <td><input type="text" name="merchandise_no" id="" value="{{ old('merchandise_no') }}" required autocomplete="off"></td>
             </tr>
             <tr>
                 <td>name</td>
@@ -36,18 +36,34 @@
             </tr>
             <tr>
                 <td>info</td>
-                <td><textarea rows="4" cols="25" name="info">{{ old('info') }}</textarea></td>
+                <td><textarea rows="4" cols="25" name="info" required>{{ old('info') }}</textarea></td>
             </tr>
             <tr>
                 <td>info_en</td>
-                <td><textarea rows="4" cols="25" name="info_en">{{ old('info_en') }}</textarea></td>
+                <td><textarea rows="4" cols="25" name="info_en" required>{{ old('info_en') }}</textarea></td>
             </tr>
-            <input type="hidden" name="parent_id" value="{{ $parent_id }}">
+            <tr>
+                <td>price</td>
+                <td><input type="text" name="price" id="" value="{{ old('price') }}" required  autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td>brand_id</td>
+                <td><input type="text" name="brand_id" id="" value="{{ old('brand_id') }}" required  autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td>vendor_id</td>
+                <td><input type="text" name="vendor_id" id="" value="{{ old('vendor_id') }}" required  autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td>remain_qty</td>
+                <td><input type="text" name="remain_qty" id="" value="{{ old('remain_qty') }}" required  autocomplete="off"></td>
+            </tr>
+            <input type="hidden" name="category_id" value="{{ $category_id }}">
             <input type="hidden" name="display" value="1">
             <input type="hidden" name="view" value="0">
             <input type="hidden" name="created_by_id" value="{{ Auth::user()->id }}">
             <input type="hidden" name="updated_by_id" value="{{ Auth::user()->id }}">
-            <input type="hidden" name="layer" value="{{ $layer }}">
+            <input type="hidden" name="highly_qty" value="0">
             <tr>
                 <td></td>
                 <td><button type="submit">submit</button></td>

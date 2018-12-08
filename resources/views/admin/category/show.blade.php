@@ -7,15 +7,19 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>show(Display the specified resource.)</h1>
-    <h3>GET|HEAD| admin/category/{category}| category.show| App\Http\Controllers\Admin\CategoryController@show| web</h3>
+    <h1>Category show(Display the specified resource.)</h1>
+    <h3>GET|HEAD| admin/category/{parent_id}/show/{display}|| App\Http\Controllers\Admin\CategoryController@show| web,auth</h3>
     @include('components.validationErrorMessage')
 
     <table border=1>
         <tr>
             <td colspan=15>
                 @if(!is_null($parent))
-                <a href="{{ url('admin/category/'.$parent->parent_id.'/show/1') }}" style=""><button type="submit"><-back</button></a>
+                    @if($display==0)
+                        <a href="{{ url('admin/category/'.$parent->id.'/show/1') }}" style=""><button type="submit"><-back</button></a>
+                    @else
+                        <a href="{{ url('admin/category/'.$parent->parent_id.'/show/1') }}" style=""><button type="submit"><-back</button></a>
+                    @endif
                 @endif
                 <a href="{{ url('admin/category/'.$parent_id.'/create') }}" style="float: right;"><button type="submit">create</button></a>
                 <a href="{{ url('admin/category/'.$parent_id.'/show/0') }}" style="float: right;"><button type="submit">restore</button></a>
@@ -48,7 +52,7 @@
             <td>{{ $category->info }}</td>
             <td>{{ $category->info_en }}</td>
             <td><a href="{{ url('admin/category/'.$category->id.'/edit') }}"><button type="submit">edit</button></a></td>
-            <td><!-- display -->
+            <td><!-- update display -->
             @if($category->display)
                 <form action="{{ url('admin/category/'.$category->id) }}" method="post">
                     {{ csrf_field() }}
@@ -65,7 +69,7 @@
             @if($category->layer < 2)
             <td><a href="{{ url('admin/category/'.$category->id.'/show/1') }}">{{ $category->sub_qty!=0?$category->sub_qty:'0' }} piece</a></td>
             @else
-            <td><a href="{{ url('admin/category/'.$category->id.'/show/1') }}">{{ $category->sub_qty!=0?$category->sub_qty:'0' }} piece</a></td>
+            <td><a href="{{ url('admin/merchandise/'.$category->id.'/show/1') }}">{{ $category->sub_qty!=0?$category->sub_qty:'0' }} piece</a></td>
             @endif
             <td>{{ $category->view }}</td>
             <td>{{ $category->layer }}</td>

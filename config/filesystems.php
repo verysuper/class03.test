@@ -68,6 +68,10 @@ return [
             'driver' => 'local',
             'root'   => public_path() . '/images/category',
         ],
+        'public_merchandise' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/images/merchandise',
+        ],
 
     ],
 

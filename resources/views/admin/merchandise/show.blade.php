@@ -10,8 +10,18 @@
     <h1>merchandise show(Display the specified resource.)</h1>
     <h3>GET|HEAD| admin/merchandise/{merchandise}| merchandise.show| App\Http\Controllers\Admin\MerchandiseController@show| web,auth</h3>
     @include('components.validationErrorMessage')
-    <a href="{{ url('admin/merchandise/'.$category_id.'/create') }}"><button type="submit">create</button></a>
     <table border=1>
+        <td colspan=18>
+        @if(!is_null($parent))
+            @if($display==0)
+                <a href="{{ url('admin/merchandise/'.$parent->id.'/show/1') }}" style=""><button type="submit"><-back</button></a>
+            @else
+                <a href="{{ url('admin/category/'.$parent->parent_id.'/show/1') }}" style=""><button type="submit"><-back</button></a>
+            @endif
+        @endif
+            <a href="{{ url('admin/merchandise/'.$category_id.'/create') }}" style="float: right;"><button type="submit">create</button></a>
+            <a href="{{ url('admin/merchandise/'.$category_id.'/show/0') }}" style="float: right;"><button type="submit">restore</button></a>
+        </td>
         <tr>
             <td>id</td>
             <td>merchandise_no</td>
@@ -38,7 +48,7 @@
             <td>{{ $item->merchandise_no }}</td>
             <td>{{ $item->name }}</td>
             <td>{{ $item->name_en }}</td>
-            <td>{{ $item->image }}</td>
+            <td><img src="{{ is_null($item->image)?url('/images/default-merchandise.png'):url('/images/merchandise/'.$item->image) }}" width=100/></td>
             <td>{{ $item->info }}</td>
             <td>{{ $item->info_en }}</td>
             <td>{{ $item->category_id }}</td>
@@ -50,8 +60,21 @@
             <td>{{ $item->brand_id }}</td>
             <td>{{ $item->vendor_id }}</td>
             <td>{{ $item->highly_qty }}</td>
-            <td>edit</td>
-            <td>delete</td><!-- display -->
+            <td><a href="{{ url('admin/merchandise/'.$item->id.'/edit') }}"><button type="submit">edit</button></a></td>
+            <td><!-- update display -->
+            @if($item->display)
+                <form action="{{ url('admin/merchandise/'.$item->id) }}" method="post">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+                    <input type="submit" value="delete">
+                </form>
+            @else
+                <form action="{{ url('admin/merchandise/'.$item->id.'/restore') }}" method="post">
+                    {{ csrf_field() }}
+                    <input type="submit" value="restore">
+                </form>
+            @endif
+            </td>
         </tr>
         @endforeach
     </table>
