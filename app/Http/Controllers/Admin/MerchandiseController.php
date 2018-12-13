@@ -25,13 +25,13 @@ class MerchandiseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($category_id)
+    public function create($parent_id)
     {
-        if($category_id == 0){
+        if($parent_id == 0){
             return redirect('admin/category/0');
         }
         return view('admin/merchandise/create',[
-            'category_id'=>$category_id,
+            'parent_id'=>$parent_id,
         ]);
     }
 
@@ -83,15 +83,15 @@ class MerchandiseController extends Controller
         $input = $request->all();
         $input['image'] = $store_result;
         Merchandise::create($input); //try catch
-        $category_id = $input['category_id'];
-        if($category_id != '0'){
-            $count = Merchandise::where('category_id', $category_id)
+        $parent_id = $input['parent_id'];
+        if($parent_id != '0'){
+            $count = Merchandise::where('parent_id', $parent_id)
                                 ->where('display','1')
                                 ->count();
-            Category::where('id', $category_id)
+            Category::where('id', $parent_id)
                         ->update(['sub_qty' => $count]);
         }
-        return redirect('admin/merchandise/'.$category_id.'/show/1');
+        return redirect('admin/merchandise/'.$parent_id.'/show/1');
     }
 
     /**
@@ -100,30 +100,30 @@ class MerchandiseController extends Controller
      * @param  \App\Entity\Merchandise  $merchandise
      * @return \Illuminate\Http\Response
      */
-    public function show($category_id = 0, $display=1 )
+    public function show($parent_id = 0, $display=1 )
     {
-        if($category_id != '0'){ //暫時
-            $count = Merchandise::where('category_id', $category_id)
+        if($parent_id != '0'){ //暫時
+            $count = Merchandise::where('parent_id', $parent_id)
                                 ->where('display','1')
                                 ->count();
-            Category::where('id', $category_id)
+            Category::where('id', $parent_id)
                         ->update(['sub_qty' => $count]);
         }
         //新增商品時會更新該項子項目數量
         $parent=null;
-        if( $category_id > 0){
-           $parent = Category::where('id',$category_id)->first();
+        if( $parent_id > 0){
+           $parent = Category::where('id',$parent_id)->first();
         }else {
             return redirect('admin/category/0');
         }
         $merchandise = Merchandise::orderBy('updated_at', 'desc')
-                    ->where('category_id', $category_id)
+                    ->where('parent_id', $parent_id)
                     ->where('display', $display)
                     ->get();
                     // ->toJson(JSON_PRETTY_PRINT);
 
         return view('admin/merchandise/show',[
-            'category_id'=>$category_id,
+            'parent_id'=>$parent_id,
             'merchandise'=>$merchandise,
             'parent'=>$parent,
             'display'=>$display,
@@ -177,7 +177,7 @@ class MerchandiseController extends Controller
         $input = $request->all();
         $input['image'] = $store_result;
         $merchandise->update($input);
-        return redirect('admin/merchandise/'.$merchandise->category_id.'/show/1');
+        return redirect('admin/merchandise/'.$merchandise->parent_id.'/show/1');
     }
 
     /**
@@ -191,7 +191,7 @@ class MerchandiseController extends Controller
         $merchandise->display = '0';
         $merchandise->update();
 
-        Category::where('id', $merchandise->category_id)
+        Category::where('id', $merchandise->parent_id)
                     ->decrement('sub_qty',1);
         return redirect()->back();
     }
@@ -201,8 +201,8 @@ class MerchandiseController extends Controller
             'display'=>'1',
         ]);
 
-        Category::where('id', $merchandise->category_id)
+        Category::where('id', $merchandise->parent_id)
                     ->increment('sub_qty',1);
-        return redirect('admin/merchandise/'.$merchandise->category_id.'/show/1');
+        return redirect('admin/merchandise/'.$merchandise->parent_id.'/show/1');
     }
 }

@@ -10,7 +10,7 @@ $factory->define(App\Entity\Merchandise::class, function (Faker $faker) {
             'image'=>NULL,
             'info'=>$faker->text,
             'info_en'=>$faker->text,
-            'category_id'=>mt_rand(20, 30),
+            'parent_id'=>mt_rand(20, 30),
             'remain_qty'=>mt_rand(20, 30),
             'display'=>'1',
             'created_by_id'=>1,

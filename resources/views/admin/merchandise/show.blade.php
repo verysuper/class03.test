@@ -19,8 +19,8 @@
                 <a href="{{ url('admin/category/'.$parent->parent_id.'/show/1') }}" style=""><button type="submit"><-back</button></a>
             @endif
         @endif
-            <a href="{{ url('admin/merchandise/'.$category_id.'/create') }}" style="float: right;"><button type="submit">create</button></a>
-            <a href="{{ url('admin/merchandise/'.$category_id.'/show/0') }}" style="float: right;"><button type="submit">restore</button></a>
+            <a href="{{ url('admin/merchandise/'.$parent_id.'/create') }}" style="float: right;"><button type="submit">create</button></a>
+            <a href="{{ url('admin/merchandise/'.$parent_id.'/show/0') }}" style="float: right;"><button type="submit">restore</button></a>
         </td>
         <tr>
             <td>id</td>
@@ -30,7 +30,7 @@
             <td>image</td>
             <td>info</td>
             <td>info_en</td>
-            <td>category_id</td>
+            <td>parent_id</td>
             <td>remain_qty</td>
             <td>created_by_id</td>
             <td>updated_by_id</td>
@@ -51,7 +51,7 @@
             <td><img src="{{ is_null($item->image)?url('/images/default-merchandise.png'):url('/images/merchandise/'.$item->image) }}" width=100/></td>
             <td>{{ $item->info }}</td>
             <td>{{ $item->info_en }}</td>
-            <td>{{ $item->category_id }}</td>
+            <td>{{ $item->parent_id }}</td>
             <td>{{ $item->remain_qty }}</td>
             <td>{{ $item->created_by_id }}</td>
             <td>{{ $item->updated_by_id }}</td>

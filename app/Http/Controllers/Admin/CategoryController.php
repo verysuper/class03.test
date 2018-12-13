@@ -185,7 +185,7 @@ class CategoryController extends Controller
         if($category->layer < 2){
             $count=$this->countSubItems('categories','parent_id',$category->id);
         }else {
-            $count=$this->countSubItems('merchandises','category_id',$category->id); //******************** */
+            $count=$this->countSubItems('merchandises','parent_id',$category->id); //******************** */
         }
         if($count > 0){
             return redirect()

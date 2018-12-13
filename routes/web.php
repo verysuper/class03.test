@@ -26,8 +26,9 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
     Route::resource('category', 'Admin\CategoryController');
     //
     Route::post('merchandise/{merchandise}/restore', 'Admin\MerchandiseController@restore');
-    Route::get('merchandise/{category_id}/create', 'Admin\MerchandiseController@create');
-    Route::get('merchandise/{category_id}/show/{display}', 'Admin\MerchandiseController@show');
+    Route::get('merchandise/{parent_id}/create', 'Admin\MerchandiseController@create');
+    Route::get('merchandise/{parent_id}/show/{display}', 'Admin\MerchandiseController@show');
     Route::resource('merchandise', 'Admin\MerchandiseController');
 });
 
+Route::get('shop/{category?}', 'ShopController@index');

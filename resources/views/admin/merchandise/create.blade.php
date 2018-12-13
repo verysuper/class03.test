@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>merchandise create(Show the form for creating a new resource)</h1>
-    <h3>GET|HEAD| admin/merchandise/{category_id}/create|| App\Http\Controllers\Admin\MerchandiseController@create| web,auth</h3>
+    <h3>GET|HEAD| admin/merchandise/{parent_id}/create|| App\Http\Controllers\Admin\MerchandiseController@create| web,auth</h3>
     @include('components.validationErrorMessage')
     <form action="{{ url('admin/merchandise') }}" method="post" enctype="multipart/form-data">
     {{ csrf_field() }}
@@ -58,7 +58,7 @@
                 <td>remain_qty</td>
                 <td><input type="text" name="remain_qty" id="" value="{{ old('remain_qty') }}" required  autocomplete="off"></td>
             </tr>
-            <input type="hidden" name="category_id" value="{{ $category_id }}">
+            <input type="hidden" name="parent_id" value="{{ $parent_id }}">
             <input type="hidden" name="display" value="1">
             <input type="hidden" name="view" value="0">
             <input type="hidden" name="created_by_id" value="{{ Auth::user()->id }}">

@@ -21,7 +21,7 @@ class CreateMerchandisesTable extends Migration
             $table->string('image',50)->nullable();//商品圖片
             $table->text('info')->nullable();//商品資訊中文
             $table->text('info_en')->nullable();//商品資訊英文
-            $table->integer('category_id')->index();//類別id
+            $table->integer('parent_id')->index();//類別id
             $table->integer('remain_qty')->unsigned();//剩餘數量
             $table->enum('display', [0, 1])->default('0');//上下架
             $table->integer('created_by_id');//建立者

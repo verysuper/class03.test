@@ -13,7 +13,7 @@ class Merchandise extends Model
             'image',
             'info',
             'info_en',
-            'category_id',
+            'parent_id',
             'remain_qty',
             'display',
             'created_by_id',
