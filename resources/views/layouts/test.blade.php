@@ -34,11 +34,20 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="">{{ __('test') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">{{ __('test') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">{{ __('test') }}</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
@@ -68,6 +77,30 @@
                                 </div>
                             </li>
                         @endguest
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ __(session('language','English')) }} <span class="caret"></span>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href=""
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('language-en').submit();">
+                                    {{ __('English') }}
+                                </a>
+                                <form id="language-en" action="#" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                                <a class="dropdown-item" href=""
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('language-zhTW').submit();">
+                                    {{ __('Chinese') }}
+                                </a>
+                                <form id="" action="#" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

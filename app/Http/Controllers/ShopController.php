@@ -17,6 +17,7 @@ class ShopController extends Controller
      */
     public function index($parent_id=0)
     {
+        // to do try catch
         $parent = null;
         $child = null;
         $filter=[];
@@ -64,7 +65,7 @@ class ShopController extends Controller
             $child = $category->whereIn('parent_id', $filter)
                                 ->sortByDesc('updated_at');
         }
-        return view('shop.index',[
+        return view('shop.test04',[
             'parents'=>$parent,
             'childs'=>$child,
             'parent_id'=>$parent_id,
