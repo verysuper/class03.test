@@ -32,9 +32,9 @@
                                     @foreach($childs as $child)
                                         @if($child->parent_id == $parent->id)
                                             <div class="item">
-                                                <div style="height:138.5px;overflow:hidden;margin:1px;">
+                                                <div style="width:113px;height:138.5px;overflow:hidden;margin:1px;">
                                                     <!-- <a href=""> -->
-                                                    <img src="{{ is_null($child->image)?url('/images/default-merchandise.png'):url('/images/merchandise/'.$child->image) }}" alt="">
+                                                    <img src="{{ is_null($child->logo)?url('/images/default-merchandise.png'):url($child->logo) }}" alt="">
                                                     <!-- </a> -->
                                                 </div>
                                                 <div class="text-justify pl-1" style="height:25px;overflow:hidden;">
@@ -66,9 +66,9 @@
                                     @foreach($childs as $child)
                                         @if($child->parent_id == $parent->id)
                                             <div class="item">
-                                                <div style="height:138.5px;overflow:hidden;margin:1px;">
+                                                <div style="width:113px;height:138.5px;overflow:hidden;margin:1px;">
                                                     <a href="{{ url('shop/'.$child->id) }}">
-                                                        <img src="{{ is_null($child->image)?url('/images/default-merchandise.png'):url('/images/category/'.$child->image) }}" alt="">
+                                                        <img src="{{ is_null($child->logo)?url('/images/default-merchandise.png'):url($child->logo) }}" alt="">
                                                     </a>
                                                 </div>
                                                 <div class="text-justify pl-1" style="height:25px;overflow:hidden;">
@@ -97,8 +97,8 @@
         var $j=$.noConflict();
         $j(document).ready(function(){
             $j(".slick").slick({
-                slidesToShow: 8,
-                slidesToScroll: 8,
+                slidesToShow: 9,
+                slidesToScroll: 9,
                 infinite:false,
                 responsive: [
                     {
@@ -106,6 +106,13 @@
                         settings: {
                             slidesToShow: 3,
                             slidesToScroll: 3,
+                        }
+                    },
+                    {
+                        breakpoint: 1100,
+                        settings: {
+                            slidesToShow: 8,
+                            slidesToScroll: 8,
                         }
                     },
                 ]
