@@ -31,8 +31,8 @@
                 <td><input type="text" name="name_en" id="" value="{{ old('name_en') }}" required  autocomplete="off"></td>
             </tr>
             <tr>
-                <td>image</td>
-                <td><input type="file" name="image" id="" onchange="previewHandle(this)"></td>
+                <td>logo</td>
+                <td><input type="file" name="logo" id="" onchange="previewHandle(this)"></td>
             </tr>
             <tr>
                 <td>info</td>

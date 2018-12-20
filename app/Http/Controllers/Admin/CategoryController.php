@@ -160,16 +160,6 @@ class CategoryController extends Controller
         ],[
             'category_no.between'=>'Must be equal 10 digits',
         ]);
-        // $store_result=null;
-        // if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
-        //     $logo = $request->file('logo');
-        //     $extension = $logo->extension();
-        //     //$store_result = $photo->store('photo');
-        //     $file=$request->input('category_no').'.'.$extension;
-        //     $store_result = $logo->storeAs('logo', $file, 'public_category');
-        // }else {
-        //     $store_result=$category->logo;
-        // }
         $logo_relative_path=null;
         if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
             $logo_file = $request->file('logo');

@@ -27,7 +27,7 @@
             <td>merchandise_no</td>
             <td>name</td>
             <td>name_en</td>
-            <td>image</td>
+            <td>logo</td>
             <td>info</td>
             <td>info_en</td>
             <td>parent_id</td>
@@ -48,7 +48,7 @@
             <td>{{ $item->merchandise_no }}</td>
             <td>{{ $item->name }}</td>
             <td>{{ $item->name_en }}</td>
-            <td><img src="{{ is_null($item->image)?url('/images/default-merchandise.png'):url('/images/merchandise/'.$item->image) }}" width=100/></td>
+            <td><img src="{{ is_null($item->logo)?url('/images/default-merchandise.png'):url($item->logo) }}" width=100/></td>
             <td>{{ $item->info }}</td>
             <td>{{ $item->info_en }}</td>
             <td>{{ $item->parent_id }}</td>

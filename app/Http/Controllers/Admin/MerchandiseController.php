@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Entity\Merchandise;
 use Illuminate\Http\Request;
 use App\Entity\Category;
+use Image;
 
 class MerchandiseController extends Controller
 {
@@ -45,9 +46,9 @@ class MerchandiseController extends Controller
     {
         $this->validate($request, [
             'merchandise_no' => 'required|between:10,10',
-            'name' => 'required|between:10,50',
-            'name_en' => 'required|between:10,50',
-            'image' => 'file|image|max:1024',
+            'name' => 'required|between:10,100',
+            'name_en' => 'required|between:10,100',
+            'logo' => 'file|image|max:1024',
             'price' => 'required',
             'brand_id' => 'required',
             'vendor_id' => 'required',
@@ -72,16 +73,18 @@ class MerchandiseController extends Controller
                         'msg'=> $msg,
                     ]);
         }
-        $store_result=null;
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $image = $request->file('image');
-            $extension = $image->extension();
-            //$store_result = $photo->store('photo');
-            $file=$request->input('merchandise_no').'.'.$extension;
-            $store_result = $image->storeAs('showcase', $file, 'public_merchandise');
+        $logo_relative_path=null;
+        if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
+            $logo_file = $request->file('logo');
+            $logo_extension = $logo_file->extension();
+            $logo_name = $request->input('merchandise_no') . '.' . $logo_extension;
+            $logo_relative_path = 'images/logo/merchandise/' . $logo_name;
+            $logo_result = Image::make($logo_file)->resize(113, 138.5, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($logo_relative_path);
         }
         $input = $request->all();
-        $input['image'] = $store_result;
+        $input['logo'] = $logo_relative_path;
         Merchandise::create($input); //try catch
         $parent_id = $input['parent_id'];
         if($parent_id != '0'){
@@ -156,7 +159,7 @@ class MerchandiseController extends Controller
             'merchandise_no' => 'required|between:10,10',
             'name' => 'required|between:10,50',
             'name_en' => 'required|between:10,50',
-            'image' => 'file|image|max:1024',
+            'logo' => 'file|image|max:1024',
             'price' => 'required',
             'brand_id' => 'required',
             'vendor_id' => 'required',
@@ -164,18 +167,20 @@ class MerchandiseController extends Controller
         ],[
             'merchandise_no.between'=>'Must be equal 10 digits',
         ]);
-
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $image = $request->file('image');
-            $extension = $image->extension();
-            //$store_result = $photo->store('photo');
-            $file=$request->input('merchandise_no').'.'.$extension;
-            $store_result = $image->storeAs('showcase', $file, 'public_merchandise');
-        }else {
-            $store_result=$merchandise->image;
+        $logo_relative_path=null;
+        if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
+            $logo_file = $request->file('logo');
+            $logo_extension = $logo_file->extension();
+            $logo_name = $request->input('merchandise_no') . '.' . $logo_extension;
+            $logo_relative_path = 'images/logo/merchandise/' . $logo_name;
+            $logo_result = Image::make($logo_file)->resize(113, 138.5, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($logo_relative_path);
+        }else{
+            $logo_relative_path = $merchandise->logo;
         }
         $input = $request->all();
-        $input['image'] = $store_result;
+        $input['logo'] = $logo_relative_path;
         $merchandise->update($input);
         return redirect('admin/merchandise/'.$merchandise->parent_id.'/show/1');
     }
