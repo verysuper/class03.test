@@ -154,8 +154,8 @@ class CategoryController extends Controller
     {
         $this->validate($request, [
             'category_no' => 'required|between:10,10',
-            'name' => 'required|between:10,50',
-            'name_en' => 'required|between:10,50',
+            'name' => 'required|between:10,100',
+            'name_en' => 'required|between:10,100',
             'logo' => 'file|image|max:1024',
         ],[
             'category_no.between'=>'Must be equal 10 digits',
@@ -170,8 +170,20 @@ class CategoryController extends Controller
         // }else {
         //     $store_result=$category->logo;
         // }
+        $logo_relative_path=null;
+        if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
+            $logo_file = $request->file('logo');
+            $logo_extension = $logo_file->extension();
+            $logo_name = $request->input('category_no') . '.' . $logo_extension;
+            $logo_relative_path = 'images/logo/category/' . $logo_name;
+            $logo_result = Image::make($logo_file)->resize(113, 138.5, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($logo_relative_path);
+        }else{
+            $logo_relative_path = $category->logo;
+        }
         $input = $request->all();
-        $input['logo'] = $store_result;
+        $input['logo'] = $logo_relative_path;
         $category->update($input);
         return redirect('admin/category/'.$category->parent_id.'/show/1');
     }

@@ -16,7 +16,7 @@
         <table border=1>
             <tr>
                 <td colspan="2">
-                    <img id="preview-img" src="{{ is_null($category->image)?url('/images/default-merchandise.png'):url('/images/category/'.$category->image) }}" width=350/>
+                    <img id="preview-img" src="{{ is_null($category->logo)?url('/images/default-merchandise.png'):url($category->logo) }}" width=350/>
                 </td>
             </tr>
             <tr>
@@ -32,9 +32,9 @@
                 <td><input type="text" name="name_en" id="" value="{{ old('name_en', $category->name_en) }}" required  autocomplete="off"></td>
             </tr>
             <tr>
-                <td>image</td>
+                <td>logo</td>
                 <td>
-                    <input type="file" name="image" id="" onchange="previewHandle(this)">
+                    <input type="file" name="logo" id="" onchange="previewHandle(this)">
                 </td>
             </tr>
             <tr>
