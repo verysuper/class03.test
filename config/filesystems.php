@@ -64,13 +64,9 @@ return [
             'url' => env('AWS_URL'),
         ],
 
-        'public_category' => [
+        'public_images' => [
             'driver' => 'local',
-            'root'   => public_path() . '/images/category',
-        ],
-        'public_merchandise' => [
-            'driver' => 'local',
-            'root'   => public_path() . '/images/merchandise',
+            'root'   => public_path() . '/images',
         ],
 
     ],

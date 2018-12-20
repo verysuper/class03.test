@@ -10,7 +10,7 @@ class Merchandise extends Model
             'merchandise_no',
             'name',
             'name_en',
-            'image',
+            'logo',
             'info',
             'info_en',
             'parent_id',

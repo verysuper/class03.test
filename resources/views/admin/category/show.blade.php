@@ -48,7 +48,7 @@
             <td>{{ $category->category_no }}</td>
             <td>{{ $category->name }}</td>
             <td>{{ $category->name_en }}</td>
-            <td><img src="{{ is_null($category->image)?url('/images/default-merchandise.png'):url('/images/category/'.$category->image) }}" width=100/></td>
+            <td><img src="{{ is_null($category->logo)?url('/images/default-merchandise.png'):url($category->logo) }}" width=100/></td>
             <td>{{ $category->info }}</td>
             <td>{{ $category->info_en }}</td>
             <td><a href="{{ url('admin/category/'.$category->id.'/edit') }}"><button type="submit">edit</button></a></td>

@@ -7,6 +7,7 @@ use App\Entity\Category;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
+use Image;
 
 class CategoryController extends Controller
 {
@@ -46,12 +47,12 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'category_no' => 'required|between:7,7',
+            'category_no' => 'required|between:10,10',
             'name' => 'required|between:10,50',
             'name_en' => 'required|between:10,50',
-            'image' => 'file|image|max:1024',
+            'logo' => 'file|image|max:1024',
         ],[
-            'category_no.between'=>'Must be equal 7 digits',
+            'category_no.between'=>'Must be equal 10 digits',
         ]);
         $msg=null;
         if(Category::where('category_no',$request->category_no)->first()){
@@ -71,16 +72,19 @@ class CategoryController extends Controller
                         'msg'=> $msg,
                     ]);
         }
-        $store_result=null;
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $image = $request->file('image');
-            $extension = $image->extension();
-            //$store_result = $photo->store('photo');
-            $file=$request->input('category_no').'.'.$extension;
-            $store_result = $image->storeAs('logo', $file, 'public_category');
+        $logo_relative_path=null;
+        if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
+            $logo_file = $request->file('logo');
+            $logo_extension = $logo_file->extension();
+            $logo_name = $request->input('category_no') . '.' . $logo_extension;
+            $logo_relative_path = 'images/logo/category/' . $logo_name;
+            $logo_result = Image::make($logo_file)->resize(113, 138.5, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($logo_relative_path);
+            // $logo_path = public_path($logo_relative_path);
         }
         $input = $request->all();
-        $input['image'] = $store_result;
+        $input['logo']=$logo_relative_path;
         Category::create($input); //try catch
         $parent_id = $input['parent_id'];
         if($parent_id != '0'){
@@ -149,25 +153,25 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $this->validate($request, [
-            'category_no' => 'required|between:7,7',
+            'category_no' => 'required|between:10,10',
             'name' => 'required|between:10,50',
             'name_en' => 'required|between:10,50',
-            'image' => 'file|image|max:1024',
+            'logo' => 'file|image|max:1024',
         ],[
-            'category_no.between'=>'Must be equal 7 digits',
+            'category_no.between'=>'Must be equal 10 digits',
         ]);
-        $store_result=null;
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $image = $request->file('image');
-            $extension = $image->extension();
-            //$store_result = $photo->store('photo');
-            $file=$request->input('category_no').'.'.$extension;
-            $store_result = $image->storeAs('logo', $file, 'public_category');
-        }else {
-            $store_result=$category->image;
-        }
+        // $store_result=null;
+        // if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
+        //     $logo = $request->file('logo');
+        //     $extension = $logo->extension();
+        //     //$store_result = $photo->store('photo');
+        //     $file=$request->input('category_no').'.'.$extension;
+        //     $store_result = $logo->storeAs('logo', $file, 'public_category');
+        // }else {
+        //     $store_result=$category->logo;
+        // }
         $input = $request->all();
-        $input['image'] = $store_result;
+        $input['logo'] = $store_result;
         $category->update($input);
         return redirect('admin/category/'.$category->parent_id.'/show/1');
     }

@@ -10,7 +10,7 @@ class Category extends Model
             'category_no',
             'name',
             'name_en',
-            'image',
+            'logo',
             'info',
             'info_en',
             'parent_id',

@@ -18,7 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('category_no',50)->unique();//類別編號
             $table->string('name',100)->unique();//中文名稱
             $table->string('name_en',100)->unique();//英文名稱
-            $table->string('image',50)->nullable();//類別圖片
+            $table->string('logo',50)->nullable();//類別圖片
             $table->text('info')->nullable();//類別資訊中文
             $table->text('info_en')->nullable();//類別資訊英文
             $table->integer('parent_id')->index();//父id
