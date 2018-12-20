@@ -7,5 +7,6 @@
  */
 
 return[
-  'login'=>'login',
+    'Login'=>'Login',
+    'Register'=>'Register',
 ];

@@ -51,11 +51,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('shop.Login') }}</a>
                             </li>
                             <li class="nav-item">
                                 @if (Route::has('register'))
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('shop.Register') }}</a>
                                 @endif
                             </li>
                         @else
@@ -85,18 +85,18 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href=""
                                    onclick="event.preventDefault();
-                                                     document.getElementById('language-en').submit();">
-                                    {{ __('English') }}
+                                                     document.getElementById('language-zh-TW').submit();">
+                                    {{ __('繁體中文') }}
                                 </a>
-                                <form id="language-en" action="#" method="POST" style="display: none;">
+                                <form id="language-zh-TW" action="{{ url('language/繁體中文') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
                                 <a class="dropdown-item" href=""
                                    onclick="event.preventDefault();
-                                                     document.getElementById('language-zhTW').submit();">
-                                    {{ __('Chinese') }}
+                                                     document.getElementById('language-en').submit();">
+                                    {{ __('English') }}
                                 </a>
-                                <form id="" action="#" method="POST" style="display: none;">
+                                <form id="language-en" action="{{ url('language/English') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
                             </div>

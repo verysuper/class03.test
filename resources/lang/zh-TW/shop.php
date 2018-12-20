@@ -7,5 +7,6 @@
  */
 
 return[
-  'login'=>'登入',
+  'Login'=>'登入',
+  'Register'=>'註冊',
 ];

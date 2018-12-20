@@ -33,3 +33,8 @@ Route::group(['prefix' => 'admin','middleware' => ['auth']], function () {
 });
 
 Route::get('shop/{category?}', 'ShopController@index');
+
+Route::post('language/{language}', function ($language) {
+    session()->put('language', $language);
+    return redirect()->back();
+});
