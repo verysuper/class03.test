@@ -99,9 +99,9 @@ class ShopController extends Controller
      * @param  \App\Shop  $shop
      * @return \Illuminate\Http\Response
      */
-    public function show(Shop $shop)
+    public function show()
     {
-        //
+        return view("shop.show");
     }
 
     /**

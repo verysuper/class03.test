@@ -32,15 +32,15 @@
                                     @foreach($childs as $child)
                                         @if($child->parent_id == $parent->id)
                                             <div class="item">
-                                                <div style="width:113px;height:138.5px;overflow:hidden;margin:1px;">
-                                                    <!-- <a href=""> -->
-                                                    <img src="{{ is_null($child->logo)?url('/images/default-merchandise.png'):url($child->logo) }}" alt="">
-                                                    <!-- </a> -->
+                                                <div style="height:138.5px;overflow:hidden;margin:1px;">
+                                                    <a href="{{ url('shop/'.$child->id.'/show') }}">
+                                                        <img src="{{ is_null($child->logo)?url('/images/default-merchandise.png'):url($child->logo) }}" alt="">
+                                                    </a>
                                                 </div>
                                                 <div class="text-justify pl-1" style="height:25px;overflow:hidden;">
-                                                    <!-- <a href=""> -->
-                                                {{ __(substr($child->name,0,12).'...') }}
-                                                <!-- </a> -->
+                                                    <a href="{{ url('shop/'.$child->id.'/show') }}">
+                                                        {{ __(substr($child->name,0,12).'...') }}
+                                                    </a>
                                                 </div>
                                             </div>
                                         @endif
@@ -66,7 +66,7 @@
                                     @foreach($childs as $child)
                                         @if($child->parent_id == $parent->id)
                                             <div class="item">
-                                                <div style="width:113px;height:138.5px;overflow:hidden;margin:1px;">
+                                                <div style="height:138.5px;overflow:hidden;margin:1px;">
                                                     <a href="{{ url('shop/'.$child->id) }}">
                                                         <img src="{{ is_null($child->logo)?url('/images/default-merchandise.png'):url($child->logo) }}" alt="">
                                                     </a>
@@ -109,10 +109,17 @@
                         }
                     },
                     {
-                        breakpoint: 1100,
+                        breakpoint: 800,
                         settings: {
-                            slidesToShow: 8,
-                            slidesToScroll: 8,
+                            slidesToShow: 5,
+                            slidesToScroll: 5,
+                        }
+                    },
+                    {
+                        breakpoint: 1200,
+                        settings: {
+                            slidesToShow: 7,
+                            slidesToScroll: 7,
                         }
                     },
                 ]

@@ -79,7 +79,7 @@ class MerchandiseController extends Controller
             $logo_extension = $logo_file->extension();
             $logo_name = $request->input('merchandise_no') . '.' . $logo_extension;
             $logo_relative_path = 'images/logo/merchandise/' . $logo_name;
-            $logo_result = Image::make($logo_file)->resize(113, 138.5, function ($constraint) {
+            $logo_result = Image::make($logo_file)->resize(122, 138.5, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($logo_relative_path);
         }
@@ -157,8 +157,8 @@ class MerchandiseController extends Controller
     {
         $this->validate($request, [
             'merchandise_no' => 'required|between:10,10',
-            'name' => 'required|between:10,50',
-            'name_en' => 'required|between:10,50',
+            'name' => 'required|between:10,100',
+            'name_en' => 'required|between:10,100',
             'logo' => 'file|image|max:1024',
             'price' => 'required',
             'brand_id' => 'required',
@@ -173,7 +173,7 @@ class MerchandiseController extends Controller
             $logo_extension = $logo_file->extension();
             $logo_name = $request->input('merchandise_no') . '.' . $logo_extension;
             $logo_relative_path = 'images/logo/merchandise/' . $logo_name;
-            $logo_result = Image::make($logo_file)->resize(113, 138.5, function ($constraint) {
+            $logo_result = Image::make($logo_file)->resize(122, 138.5, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($logo_relative_path);
         }else{
