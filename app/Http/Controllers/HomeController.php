@@ -22,8 +22,15 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        // return view('home');
+        $user = $request->user();
+        if($user->type == 0){
+            return redirect('admin/category');
+        }
+        if($user->type == 1){
+            return redirect('shop/');
+        }
     }
 }
