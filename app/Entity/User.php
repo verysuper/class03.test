@@ -1,10 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Entity;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Entity\SalesRecord;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -27,4 +28,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function salesRecords()
+    {
+        return $this->hasMany(SalesRecord::class);
+    }
 }

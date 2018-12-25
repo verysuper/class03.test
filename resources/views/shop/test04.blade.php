@@ -91,7 +91,7 @@
 
 @push('plugins')
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ url('js/jquery-3.2.1.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url('js/jquery-3.3.1.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript" src="{{asset('js/slide/slick/slick.js')}}"  charset="utf-8"></script>
     <script type="text/javascript">
         var $j=$.noConflict();

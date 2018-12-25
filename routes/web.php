@@ -39,3 +39,7 @@ Route::post('language/{language}', function ($language) {
     session()->put('language', $language);
     return redirect()->back();
 });
+
+Route::group(['prefix' => 'employee','middleware' => ['auth']], function () {
+    Route::resource('salesRecord', 'Employee\SalesRecordController');
+});
