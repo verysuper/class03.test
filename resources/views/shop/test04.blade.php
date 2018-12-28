@@ -1,4 +1,4 @@
-@extends('layouts.test')
+@extends('layouts.app')
 @push('styles')
     <link rel="stylesheet" type="text/css" href="{{asset('js/slide/slick/slick.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('js/slide/slick/slick-theme.css')}}"/>

@@ -1,4 +1,4 @@
-@extends('layouts.test')
+@extends('layouts.app')
 @push('styles')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.18/r-2.2.2/datatables.min.css"/>
@@ -78,7 +78,7 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <!-- <th>created_at</th> -->
+                            <th>created_at</th>
                             <th>product_description</th>
                             <th>customer_name</th>
                             <th></th>
@@ -89,7 +89,7 @@
                         @foreach ($salesRecords as $record)
                         <tr>
                             <td></td>
-                            <!-- <td>2018-12-23 11:24:15</td> -->
+                            <td>{{ $record->created_at }}</td>
                             <td>{{ $record->product_description }}</td>
                             <td>{{ $record->customer_name }}</td>
                             <td><img src="{{ url($record->record_image) }}" style="width:300px;"></td>

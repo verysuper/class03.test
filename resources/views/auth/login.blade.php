@@ -71,3 +71,9 @@
     </div>
 </div>
 @endsection
+@push('plugins')
+    <script src="{{ asset('js/app.js') }}" defer></script>
+<script type="text/javascript">
+
+</script>
+@endpush

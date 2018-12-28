@@ -1,4 +1,4 @@
-@extends('layouts.test')
+@extends('layouts.app')
 @push('styles')
     <link rel="stylesheet" href="{{url('css/shop/style.css')}}">
 @endpush
